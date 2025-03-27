@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Planner</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>Recipe Planner</h1>
+            <nav>
+                <button id="toggle-recipes">View Recipes</button>
+                <button id="toggle-plan">Meal Plan</button>
+                <button id="toggle-shopping-list">Shopping List</button>
+            </nav>
+        </header>
+
+        <main>
+            <!-- Search Bar -->
+            <section id="search-section">
+                <input type="text" id="search-input" placeholder="Search recipes...">
+            </section>
+
+            <!-- Recipes Section -->
+            <section id="recipes-section">
+                <h2>Recipes</h2>
+                <div id="recipes-list"></div>
+            </section>
+
+            <!-- Meal Plan Section -->
+            <section id="meal-plan-section">
+                <h2>Weekly Meal Plan</h2>
+                <ul id="meal-plan"></ul>
+            </section>
+
+            <!-- Shopping List Section -->
+            <section id="shopping-list-section">
+                <h2>Shopping List</h2>
+                <ul id="shopping-list"></ul>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Recipe Planner</p>
+        </footer>
+    </div>
+
+    <!-- Loading Indicator -->
+    <div id="loading" style="display:none;">Loading...</div>
+
+    <script src="app.js"></script>
+</body>
+</html>
