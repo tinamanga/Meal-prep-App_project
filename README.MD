@@ -1,136 +1,157 @@
-:cutlery: Meal Plan Master :calendar:
-Meal Plan Master is a simple, yet powerful meal planning web application designed to help users easily plan meals, view recipes, generate shopping lists, and export their weekly meal plan. With an intuitive interface and easy-to-use features, this app ensures that meal prepping is no longer a hassle.
+Meal-Prep-APP
+Overview
+The Meal-Prep-APP is a modern web-based application that helps users plan their meals for the week. This app allows users to search for recipes, view detailed recipe instructions, add meals to their weekly meal plan, generate shopping lists, and export their meal plans. Built with HTML, CSS, and JavaScript, it integrates with the Spoonacular API for fetching recipe data.
 
-:sparkles: Key Features
-Search Recipes: Users can search for recipes based on ingredients, cuisines, or meal type.
+With its intuitive interface, the app is perfect for anyone looking to simplify their meal prep and grocery shopping process.
 
-Recipe Details: View detailed information about recipes, including ingredients, instructions, and nutritional information.
+Key Features
+Recipe Search: Users can search for recipes by ingredient or recipe name.
 
-Weekly Meal Plan: Users can add recipes to their weekly meal plan, and customize the plan by day and meal time.
+Recipe Details: View detailed information about each recipe, including ingredients and cooking instructions.
 
-Shopping List: Automatically generate a shopping list based on the selected meal plan.
+Add Recipes to Meal Plan: Easily add recipes to specific days in your weekly meal plan.
 
-Export Meal Plan: Download the meal plan and shopping list as a JSON file.
+Shopping List Generation: Automatically generate a shopping list based on the selected recipes.
 
-Drag-and-Drop Meal Swap: Easily swap meals between days in the meal plan for flexibility.
+Meal Plan Export: Download your meal plan and shopping list as a JSON file.
 
-:computer: Technologies Used
-HTML: Structure of the app, including sections for recipes, meal plan, and shopping list.
+Responsive Design: The app is fully responsive, ensuring a smooth experience on both mobile and desktop devices.
 
-CSS: Styling and layout for the app, ensuring a clean, modern design.
+Customizable Meal Swaps: Swap meals between days to suit your schedule.
 
-JavaScript: Handles user interactions, fetching recipe data, and generating shopping lists.
+Screenshots
 
-:wrench: Getting Started
-To run the Meal Plan Master app locally, follow these steps:
+(Example image placeholder, replace with your own app screenshot)
 
-1. Clone the Repository
-Clone this repository to your local machine:
+Installation
+To run the Meal-Prep-APP locally, follow the steps below:
+
+Prerequisites
+A modern web browser (Chrome, Firefox, etc.)
+
+An internet connection to fetch recipe data from the Spoonacular API.
+
+Steps
+Clone the Repository:
 
 bash
 Copy
-git clone https://github.com/your-username/meal-plan-master.git
-2. Navigate to the Project Folder
-Change into the project directory:
+git clone https://github.com/yourusername/meal-prep-app.git
+Navigate to the Project Folder:
 
 bash
 Copy
-cd meal-plan-master
-3. Open the HTML File
-Open the index.html file in your browser to start using the app.
+cd meal-prep-app
+Open the Project in Your Browser:
 
-:page_facing_up: App Overview
-1. Search for Recipes
-Use the search bar to search for recipes. The app fetches recipes from Spoonacular API based on the search query.
+Open the index.html file directly in your web browser by double-clicking it or right-clicking to open with a browser.
 
-2. View Recipe Details
-Click the "View Details" button next to a recipe to see its full details: ingredients, instructions, and nutritional info.
+Start using the app:
 
-3. Add Recipes to Meal Plan
-Once you find a recipe you like, click "Add to Meal Plan" to assign it to a specific day and meal time.
+Once opened, you can start using the Meal Prep app by searching for recipes, adding them to your meal plan, and generating shopping lists.
+
+Setup API Key
+To fetch recipes from the Spoonacular API, you’ll need an API key.
+
+Steps to Get an API Key
+Visit Spoonacular's API site.
+
+Create an account and get your API key from the dashboard.
+
+Replace the placeholder API key in your code:
+
+Open app.js and find the line where the API key is defined:
+
+js
+Copy
+const API_KEY = 'your-api-key-here';
+Replace 'your-api-key-here' with your actual API key.
+
+Usage
+1. Search Recipes
+Enter an ingredient or recipe name in the search bar to find relevant recipes.
+
+The app will display a list of recipes with titles and options to view details or add to the meal plan.
+
+2. Add Recipe to Meal Plan
+Click on the "Add to Meal Plan" button next to any recipe.
+
+A prompt will appear asking you to select a day of the week and a meal time (e.g., Monday Dinner, Tuesday Lunch).
+
+3. View Weekly Meal Plan
+Navigate to the Meal Plan section to view all added recipes for the week.
+
+You can remove any recipe or swap meals between days for flexibility.
 
 4. Generate Shopping List
-The app automatically generates a shopping list based on your selected meals. You can view the list or download it as a JSON file.
+Once meals are added to your plan, the app will automatically generate a shopping list with all the ingredients needed.
 
-5. Customize Meal Plan
-You can easily swap meals between days, remove meals, or reorder your meal plan as needed.
+You can download this list in JSON format by clicking the "Download Shopping List" button.
 
-:gear: How the App Works
-The app interacts with the Spoonacular API to provide users with a wide variety of recipes, including:
+5. Export Meal Plan
+Export the entire meal plan and shopping list by clicking the "Download Meal Plan" button.
 
-Recipe Search: Search recipes based on ingredients or keywords.
+Technologies Used
+HTML: Provides the structure of the web pages.
 
-Meal Plan: Select and organize meals for the week.
+CSS: Used for styling the app, ensuring it’s responsive and visually appealing.
 
-Shopping List: Generate and download a list of ingredients needed for your meals.
+JavaScript: Handles all the functionality of the app, including API requests, meal plan management, and shopping list generation.
 
-The core logic of the app is written in JavaScript, making it dynamic and responsive to user input. The app allows users to:
+Spoonacular API: Fetches recipes, ingredients, and cooking instructions.
 
-View recipes with the click of a button.
+GitHub Pages (optional): For deploying your app.
 
-Add them to their meal plan and adjust the schedule.
+API Integration
+This app uses the Spoonacular API to retrieve recipes and their details.
 
-Create a shopping list based on their plan.
+Setting up Spoonacular API Key
+Create an account on Spoonacular.
 
-Export everything in a user-friendly JSON format.
+Get your API key from the Spoonacular API Dashboard.
 
-:file_folder: Folder Structure
-The project consists of the following files and folders:
+Update the API_KEY variable in your app.js file:
 
-graphql
+js
 Copy
-meal-plan-master/
-│
-├── index.html          # Main HTML structure
-├── styles.css          # App styling and design
-├── app.js              # JavaScript functionality and API calls
-└── README.md           # Project documentation (this file)
-:package: API Integration
-The app fetches recipes using the Spoonacular API. To use the API:
+const API_KEY = 'your-api-key-here';
+Troubleshooting
+Common Issues
+404 Errors: Ensure that the API URL is correct and the API key is valid.
 
-Get Your API Key: Visit the Spoonacular API page and sign up for a free account.
+CORS Issues: CORS issues can occur if the server doesn’t allow cross-origin requests. During development, you can use a CORS proxy like CORS Anywhere.
 
-Set Up the API Key: Replace the API_KEY in app.js with your Spoonacular API key.
+Alternatively, configure your backend to handle CORS requests if you're running a custom backend server.
 
-:bulb: Features to Add
-User Authentication: Allow users to sign in and save their meal plans and shopping lists.
+API Limit Reached: Spoonacular API has rate limits, so if you exceed them, the API will stop responding. Consider upgrading your plan if needed.
 
-Meal Prep Tips: Offer tips and tricks for meal prepping to accompany each recipe.
+Contributing
+We welcome contributions to this project! To contribute:
 
-Customizable Categories: Add more options like dietary preferences (e.g., gluten-free, vegan) in search filters.
+Fork the repository.
 
-:email: Contact
-If you have any questions or suggestions for improving the app, feel free to reach out to me at:
+Create a new branch for your feature or bug fix.
 
-Email: your-email@example.com
+Make your changes and commit them with clear commit messages.
 
-:memo: License
-This project is licensed under the MIT License. See the LICENSE file for more details.
+Push your changes to your forked repository.
 
-:star: Contributions
-Contributions are welcome! If you'd like to help improve the app, feel free to fork the repo, create a branch, and submit a pull request with your changes. Here are a few ways you can contribute:
+Create a pull request to merge your changes into the main repository.
 
-Bug fixes: If you find a bug or issue, feel free to create a pull request to fix it.
+License
+This project is licensed under the MIT License – see the LICENSE file for details.
 
-New Features: Have an idea for a new feature? Open an issue and submit a pull request!
+Acknowledgements
+Spoonacular API for providing access to an extensive database of recipes.
 
-Documentation: Help improve the documentation by submitting corrections or updates.
+Font Awesome for the helpful icons.
 
-:warning: Troubleshooting
-CORS Issues
-If you're developing locally and facing CORS issues with the Spoonacular API, you can use a proxy during development (e.g., CORS Anywhere) or configure CORS headers in your backend (if applicable).
+Unsplash for free high-quality images used in the app.
 
-API Rate Limits
-The Spoonacular API offers limited free requests per day. If you exceed the rate limit, you may need to wait or upgrade to a paid plan. You can monitor your usage on the Spoonacular dashboard.
+Contact
+If you have any questions or feedback, feel free to contact me:
 
-:link: Demo and Preview
-You can view a live demo of the app here:
-Live Demo
+Email: [your-email@example.com]
 
-:art: App Screenshots
-Here's what the app looks like:
-
-
-“Master your meal planning. Eat healthy. Stay organized.”
-Meal Plan Master - Your personal assistant for meal planning.
+GitHub: your-github-profile-link
 
