@@ -7,11 +7,12 @@ const shoppingList = document.getElementById('shopping-list');
 const searchInput = document.getElementById('search-input'); // Search input field
 const loadingIndicator = document.getElementById('loading'); // Loading indicator
 
+let mealPlan = []; // Stores the meal plan data
+
 // Function to display the loading state
 function showLoading() {
     loadingIndicator.style.display = 'block';
 }
-//tebic32027@infornma.com/
 
 // Function to hide the loading state
 function hideLoading() {
@@ -99,49 +100,96 @@ function displayRecipeModal(recipe) {
 
 // Add recipe to weekly meal plan (POST)
 async function addRecipeToPlan(recipe) {
-    const mealPlanItem = document.createElement('li');
-    mealPlanItem.textContent = recipe.title;
-    const removeButton = document.createElement('button');
-    removeButton.textContent = 'Remove';
-    removeButton.addEventListener('click', async () => {
-        await deleteMealPlanItem(recipe);  // Simulate DELETE operation
-        mealPlanItem.remove();
-    });
+    const mealDay = prompt("Which day would you like to add this to (e.g., Monday)?");
+    const mealTime = prompt("Which meal time? (e.g., dinner)");
 
-    mealPlanItem.appendChild(removeButton);
-    mealPlanList.appendChild(mealPlanItem);
+    const mealItem = { recipe, day: mealDay, time: mealTime };
+    mealPlan.push(mealItem);
+
+    // Update the meal plan UI
+    updateMealPlanUI();
     updateShoppingList(recipe);
-    
+
     // POST new meal plan item to a backend (you could set up an API endpoint for this)
     try {
         await fetch('https://your-backend.com/api/meal-plan', {
             method: 'POST',
             mode: 'no-cors',  // This disables the CORS check
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(recipe)
+            body: JSON.stringify(mealItem)
         });
     } catch (error) {
         console.error('Error adding to meal plan:', error);
     }
 }
 
-// Generate shopping list based on the meal plan
+// Generate shopping list
+function generateShoppingList() {
+    const shoppingList = [];
+    mealPlan.forEach(item => {
+        item.recipe.extendedIngredients.forEach(ingredient => {
+            if (!shoppingList.includes(ingredient.original)) {
+                shoppingList.push(ingredient.original);
+            }
+        });
+    });
+
+    // Display shopping list
+    const shoppingListContainer = document.getElementById('shopping-list');
+    shoppingListContainer.innerHTML = shoppingList.join('<br/>');
+
+    // Option to download shopping list as JSON
+    const downloadButton = document.getElementById('download-shopping-list');
+    downloadButton.addEventListener('click', () => {
+        const data = { shoppingList };
+        downloadJSON(data, 'shopping_list.json');
+    });
+}
+
+// Helper function to download JSON
+function downloadJSON(data, filename) {
+    const file = new Blob([JSON.stringify(data)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(file);
+    a.download = filename;
+    a.click();
+}
+
+// Update the shopping list when a recipe is added
 function updateShoppingList(recipe) {
     const shoppingItem = document.createElement('li');
     shoppingItem.textContent = `${recipe.title}: ${recipe.extendedIngredients ? recipe.extendedIngredients.map(ingredient => ingredient.original).join(', ') : 'No ingredients available'}`;
     shoppingList.appendChild(shoppingItem);
 }
 
-// DELETE meal plan item (this is a simulated DELETE request)
-async function deleteMealPlanItem(recipe) {
+// Remove recipe from the meal plan
+async function removeFromMealPlan(recipeId) {
+    mealPlan = mealPlan.filter(item => item.recipe.id !== recipeId);
+    updateMealPlanUI();
     try {
-        await fetch(`https://your-backend.com/api/meal-plan/${recipe.id}`, {
+        await fetch(`https://your-backend.com/api/meal-plan/${recipeId}`, {
             method: 'DELETE',
         });
         console.log('Item deleted successfully');
     } catch (error) {
         console.error('Error deleting item:', error);
     }
+}
+
+// Update the meal plan UI
+function updateMealPlanUI() {
+    mealPlanList.innerHTML = ''; // Clear existing list
+    mealPlan.forEach(item => {
+        const mealItem = document.createElement('li');
+        mealItem.textContent = `${item.recipe.title} (${item.day} - ${item.time})`;
+        const removeButton = document.createElement('button');
+        removeButton.textContent = 'Remove';
+        removeButton.addEventListener('click', () => {
+            removeFromMealPlan(item.recipe.id);
+        });
+        mealItem.appendChild(removeButton);
+        mealPlanList.appendChild(mealItem);
+    });
 }
 
 // Toggle sections (view recipes, meal plan, shopping list)
@@ -161,6 +209,16 @@ document.getElementById('toggle-shopping-list').addEventListener('click', () => 
     document.getElementById('shopping-list-section').classList.add('active');
 });
 
+// Export the meal plan and shopping list as JSON
+function exportMealPlan() {
+    const data = {
+        recipes: mealPlan.map(item => item.recipe),
+        shoppingList: generateShoppingList(),
+        mealPlan: mealPlan
+    };
+    downloadJSON(data, 'meal_plan.json');
+}
+
 // Search functionality
 searchInput.addEventListener('input', (e) => {
     fetchRecipes(e.target.value); // Fetch recipes based on search input
@@ -171,6 +229,3 @@ window.onload = () => {
     document.getElementById('toggle-recipes').click();
     fetchRecipes(); // Fetch initial recipes
 };
-
-
-
