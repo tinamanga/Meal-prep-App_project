@@ -242,7 +242,7 @@ async function fechAndDisplayMealPlan() {
 
 
 // Display Meal update modal
-function displayMealUpdateModal(mealPlan) {
+ function displayMealUpdateModal(mealPlan) {
     const modal = document.createElement('div');
     modal.classList.add('modal');
     modal.innerHTML = `
@@ -262,9 +262,34 @@ function displayMealUpdateModal(mealPlan) {
     
     // Close modal functionality
     modal.querySelector('.close').addEventListener('click', () => modal.remove());
-    
 
+    const form = document.getElementById('update-form');
+    form.addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent the form from submitting
+  
+      const mealDay = document.getElementById('meal-day').value;
+      const mealTime = document.getElementById('meal-time').value;
+      const mealPlanId = mealPlan.id;
+      var updateBody= new Object();
+      
+      updateBody.day=mealDay;
+      updateBody.time= mealTime;
+      var jsonBody=JSON.stringify(updateBody);
+      alert(jsonBody);
 
+      try {
+         fetch(`${API_URL}meal-plan/${mealPlanId}`, {
+            method: 'PATCH',
+            //mode: 'no-cors',  // This disables the CORS check
+            headers: { 'Content-Type': 'application/json' },
+            body: jsonBody
+        });
+    } catch (error) {
+        console.error('Error adding to meal plan:', error);
+    }
+
+     
+    });
 
     // Close modal if clicking outside the content
     window.addEventListener('click', (e) => {
@@ -273,6 +298,14 @@ function displayMealUpdateModal(mealPlan) {
         }
     });
 }
+
+
+
+
+
+
+
+
 
 // Toggle sections (view recipes, meal plan, shopping list)
 document.getElementById('toggle-recipes').addEventListener('click', () => {
