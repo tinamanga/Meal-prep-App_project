@@ -12,21 +12,10 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 120vh;
 }
 
-.app-container {
-    width: 100%;
-    max-width: 1200px;
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
+
 
 header {
     background-color: #007BFF;
@@ -34,6 +23,7 @@ header {
     padding: 20px;
     border-radius: 10px 10px 0 0;
     text-align: center;
+    
 }
 
 header h1 {
@@ -239,6 +229,18 @@ button.remove:hover {
     .app-container {
         width: 100%;
         padding: 10px;
+     }
+    .app-container {
+        width: 100%;
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        overflow-y: scroll;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
     }
 
     #search-input {

@@ -1,11 +1,13 @@
-const API_KEY = '5f8c564bd76247ccb658e942b18f527e';  // Actual API key
-const API_URL = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&number=10`;  
+
+const API_KEY = '5f8c564bd76247ccb658e942b18f527e'  // Actual API key
+const API_URL = "http://localhost:3000/";  
 
 const recipesList = document.getElementById('recipes-list');
 const mealPlanList = document.getElementById('meal-plan');
 const shoppingList = document.getElementById('shopping-list');
 const searchInput = document.getElementById('search-input'); // Search input field
 const loadingIndicator = document.getElementById('loading'); // Loading indicator
+const containerClass= document.getElementById("main-container");
 
 let mealPlan = []; // Stores the meal plan data
 
@@ -22,12 +24,14 @@ function hideLoading() {
 // Fetch recipes from Spoonacular API (GET)
 async function fetchRecipes(query = '') {
     showLoading();
-    const url = query ? `${API_URL}&query=${query}` : API_URL;
+    const url = query ? `${API_URL}recipes?query=${query}` : `${API_URL}recipes`;
+    console.log(url);
+
     
     try {
         const response = await fetch(url);
         const data = await response.json();
-        displayRecipes(data.results);
+        displayRecipes(data);
     } catch (error) {
         console.error('Error fetching recipes:', error);
         alert('Failed to load recipes. Please try again later.');
@@ -54,12 +58,18 @@ function displayRecipes(recipes) {
         
         // Add event listener to add to meal plan
         recipeElement.querySelector('.add-to-plan').addEventListener('click', () => addRecipeToPlan(recipe));
+
+        // Show existing meal plan
+
+
+        // Show existing shopping list
+
     });
 }
 
 // View detailed recipe (ingredients and instructions)
 async function viewRecipeDetails(recipeId) {
-    const url = `https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=${API_KEY}`;
+    const url = `${API_URL}recipeData/${recipeId}`;
     try {
         const response = await fetch(url);
         const data = await response.json();
@@ -85,7 +95,7 @@ function displayRecipeModal(recipe) {
             <p>${recipe.instructions}</p>
         </div>
     `;
-    document.body.appendChild(modal);
+    containerClass.appendChild(modal);
     
     // Close modal functionality
     modal.querySelector('.close').addEventListener('click', () => modal.remove());
@@ -104,15 +114,17 @@ async function addRecipeToPlan(recipe) {
     const mealTime = prompt("Which meal time? (e.g., dinner)");
 
     const mealItem = { recipe, day: mealDay, time: mealTime };
-    mealPlan.push(mealItem);
 
+    
+    mealPlan.push(mealItem);
+    //console.log(mealPlan);
     // Update the meal plan UI
-    updateMealPlanUI();
+    //updateMealPlanUI();
     updateShoppingList(recipe);
 
     // POST new meal plan item to a backend (you could set up an API endpoint for this)
     try {
-        await fetch('https://your-backend.com/api/meal-plan', {
+        await fetch(`${API_URL}meal-plan`, {
             method: 'POST',
             mode: 'no-cors',  // This disables the CORS check
             headers: { 'Content-Type': 'application/json' },
@@ -165,9 +177,9 @@ function updateShoppingList(recipe) {
 // Remove recipe from the meal plan
 async function removeFromMealPlan(recipeId) {
     mealPlan = mealPlan.filter(item => item.recipe.id !== recipeId);
-    updateMealPlanUI();
+   // updateMealPlanUI();
     try {
-        await fetch(`https://your-backend.com/api/meal-plan/${recipeId}`, {
+        await fetch(`${API_URL}meal-plan/${recipeId}`, {
             method: 'DELETE',
         });
         console.log('Item deleted successfully');
@@ -177,18 +189,88 @@ async function removeFromMealPlan(recipeId) {
 }
 
 // Update the meal plan UI
-function updateMealPlanUI() {
+// function updateMealPlanUI() {
+//     //mealPlanList.innerHTML = ''; // Clear existing list
+//     mealPlan.forEach(item => {
+//         const mealItem = document.createElement('li');
+//         mealItem.textContent = `${item.recipe.title} (${item.day} - ${item.time})`;
+//         const removeButton = document.createElement('button');
+//         removeButton.textContent = 'Remove';
+//         removeButton.addEventListener('click', () => {
+//             removeFromMealPlan(item.recipe.id);
+//         });
+//         mealItem.appendChild(removeButton);
+//         mealPlanList.appendChild(mealItem);
+//     });
+// }
+
+
+async function fechAndDisplayMealPlan() {
     mealPlanList.innerHTML = ''; // Clear existing list
-    mealPlan.forEach(item => {
-        const mealItem = document.createElement('li');
-        mealItem.textContent = `${item.recipe.title} (${item.day} - ${item.time})`;
-        const removeButton = document.createElement('button');
-        removeButton.textContent = 'Remove';
-        removeButton.addEventListener('click', () => {
-            removeFromMealPlan(item.recipe.id);
+    try {
+        const response = await fetch(`${API_URL}meal-plan`);
+        const data = await response.json();
+        data.forEach(item => {
+            const mealItem = document.createElement('li');
+            mealItem.textContent = `${item.recipe.title} (${item.day} - ${item.time})`;
+            const removeButton = document.createElement('button');
+            removeButton.textContent = 'Remove';
+
+            const updateButton=document.createElement('button');
+            updateButton.textContent='Update';
+
+            removeButton.addEventListener('click', () => {
+                //alert(item.recipe.id);
+                removeFromMealPlan(item.id);
+            });
+            updateButton.addEventListener('click', () => {
+                //alert(item.recipe.id);
+                displayMealUpdateModal(item);
+            });
+            mealItem.appendChild(updateButton);
+            mealItem.appendChild(removeButton);
+            
+            mealPlanList.appendChild(mealItem);
         });
-        mealItem.appendChild(removeButton);
-        mealPlanList.appendChild(mealItem);
+    } catch (error) {
+        console.error('Error fetching meal plans:', error);
+        alert('Failed to load meal plans. Please try again later.');
+    } 
+
+    
+}
+
+
+// Display Meal update modal
+function displayMealUpdateModal(mealPlan) {
+    const modal = document.createElement('div');
+    modal.classList.add('modal');
+    modal.innerHTML = `
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>${mealPlan.recipe.title}</h2>
+            <form id="update-form" >
+            <label for="Meal Day">Meal Day</label>
+            <input id="meal-day" type="text" value=${mealPlan.day} /> <br>
+            <label for="Meal Time">Meal Time</label>
+            <input id="meal-time" type="text" value=${mealPlan.time} /> <br>
+            <button type="submit" id="update-button">Update</button>
+            </form>
+        </div>
+    `;
+    containerClass.appendChild(modal);
+    
+    // Close modal functionality
+    modal.querySelector('.close').addEventListener('click', () => modal.remove());
+    
+
+
+
+    // Close modal if clicking outside the content
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.remove();
+        }
     });
 }
 
@@ -228,4 +310,5 @@ searchInput.addEventListener('input', (e) => {
 window.onload = () => {
     document.getElementById('toggle-recipes').click();
     fetchRecipes(); // Fetch initial recipes
+    fechAndDisplayMealPlan();
 };
