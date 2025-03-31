@@ -11,10 +11,7 @@ const showMealPlanBtn = document.getElementById("toggle-plan");
 const shoppingListBtn = document.getElementById("toggle-shopping-list");
 const downloadShoppingList = document.getElementById("download-shopping-list");
 
-
-
-
-// generateRandomId
+// generate Random Id
 function generateRandomString() {
   const characters =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -26,13 +23,13 @@ function generateRandomString() {
   return randomString;
 }
 
-//console.log(generateRandomString());
 
 // fetch shoppinglist eventlistener
 shoppingListBtn.addEventListener("click", (e) => {
   fetchShoppingList();
 });
 
+// Fetch and display meal plan
 showMealPlanBtn.addEventListener("click", (e) => {
   fechAndDisplayMealPlan();
 });
@@ -89,10 +86,6 @@ function displayRecipes(recipes) {
     recipeElement
       .querySelector(".add-to-plan")
       .addEventListener("click", () => addRecipeToPlan(recipe));
-
-    // Show existing meal plan
-
-    // Show existing shopping list
   });
 }
 
@@ -187,7 +180,10 @@ async function generateShoppingList() {
 
       recipe.extendedIngredients.forEach((ingredient) => {
         if (!shoppingList.includes(ingredient.original)) {
-          shoppingList.push("Recipe Title: "+recipe.title,ingredient.original);
+          shoppingList.push(
+            "Recipe Title: " + recipe.title,
+            ingredient.original
+          );
         }
       });
     } catch (error) {
@@ -209,34 +205,32 @@ function downloadJSON(data, filename) {
 }
 
 function downloadPDF(data, filename) {
-    // Import jsPDF if using it via npm (if using CDN, it's available globally)
-    const { jsPDF } = window.jspdf;
-  
-    // Create a new PDF document
-    const doc = new jsPDF();
-  
-    // Add title to PDF
-    doc.text("Shopping List", 20, 10);  // Title at coordinates (20, 10)
-  
-    // Add each item in the shopping list to the PDF
-    let yPosition = 20;  // Start the list from below the title
-    const lineHeight = 10; // Vertical space between lines
-    const maxHeight = 290;
-    data.shoppingList.forEach((item, index) => {
-        
-        // If the current yPosition exceeds the max height, add a new page
+  // Import jsPDF if using it via npm (if using CDN, it's available globally)
+  const { jsPDF } = window.jspdf;
+
+  // Create a new PDF document
+  const doc = new jsPDF();
+
+  // Add title to PDF
+  doc.text("Shopping List", 20, 10); // Title at coordinates (20, 10)
+
+  // Add each item in the shopping list to the PDF
+  let yPosition = 20; // Start the list from below the title
+  const lineHeight = 10; // Vertical space between lines
+  const maxHeight = 290;
+  data.shoppingList.forEach((item, index) => {
+    // If the current yPosition exceeds the max height, add a new page
     if (yPosition + lineHeight > maxHeight) {
-        doc.addPage();  // Add a new page
-        yPosition = 20;  // Reset the vertical position on the new page
-      }
-      doc.text(`${index + 1}. ${item}`, 20, yPosition);
-      yPosition += lineHeight;  // Increase the vertical position for the next item
-    });
-  
-    // Trigger the PDF download
-    doc.save(filename);  // Save the file as the provided filename
-  }
-  
+      doc.addPage(); // Add a new page
+      yPosition = 20; // Reset the vertical position on the new page
+    }
+    doc.text(`${index + 1}. ${item}`, 20, yPosition);
+    yPosition += lineHeight; // Increase the vertical position for the next item
+  });
+
+  // Trigger the PDF download
+  doc.save(filename); // Save the file as the provided filename
+}
 
 // Create a shopping list
 function createShoppingList(recipe) {
