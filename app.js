@@ -274,6 +274,7 @@ async function fetchShoppingList() {
       }`;
       const removeButton = document.createElement("button");
       removeButton.textContent = "Remove";
+      removeButton.classList.add('remove');
 
       removeButton.addEventListener("click", (e) => {
         deleteShoppingList(shoppingListId);
