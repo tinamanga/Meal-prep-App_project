@@ -338,6 +338,7 @@ async function fechAndDisplayMealPlan() {
       mealItem.textContent = `${item.recipe.title} (${item.day} - ${item.time})`;
       const removeButton = document.createElement("button");
       removeButton.textContent = "Remove";
+      removeButton.classList.add('remove');
 
       const updateButton = document.createElement("button");
       updateButton.textContent = "Update";
