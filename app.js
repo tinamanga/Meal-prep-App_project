@@ -8,7 +8,7 @@ const searchInput = document.getElementById("search-input"); // Search input fie
 const loadingIndicator = document.getElementById("loading"); // Loading indicator
 const containerClass = document.getElementById("main-container");
 const showMealPlanBtn = document.getElementById("toggle-plan");
-const shoppingListBtn=document.getElementById('toggle-shopping-list');
+const shoppingListBtn = document.getElementById("toggle-shopping-list");
 
 // generateRandomId
 function generateRandomString() {
@@ -25,16 +25,13 @@ function generateRandomString() {
 //console.log(generateRandomString());
 
 // fetch shoppinglist eventlistener
-shoppingListBtn.addEventListener('click', (e)=>{
-    fetchShoppingList();
-})
-
-
+shoppingListBtn.addEventListener("click", (e) => {
+  fetchShoppingList();
+});
 
 showMealPlanBtn.addEventListener("click", (e) => {
   fechAndDisplayMealPlan();
 });
-
 
 let mealPlan = []; // Stores the meal plan data
 
@@ -231,19 +228,20 @@ function createShoppingList(recipe) {
 // Fetch shopping list
 async function fetchShoppingList() {
   const response = await fetch(`${API_URL}shopping-list`);
+
   const data = await response.json();
 
-//   fetch individual recipes as per the shopping list id
-  data.forEach((item) => {
+  //   fetch individual recipes as per the shopping list id
+  data.forEach(async (item) => {
     const shoppingListId = item.id;
     const recipeId = item.recipe.id;
     try {
-      const response = fetch(`${API_URL}recipeData/${recipeId}`);
-      const data = response.json();
-      
-    //   Create and display then shopping list
+      const response = await fetch(`${API_URL}recipeData/${recipeId}`);
+      const recipe = await response.json();
+
+      //   Create and display then shopping list
       const shoppingItem = document.createElement("li");
-      shoppingItem.textContent = `${data.title}: ${
+      shoppingItem.textContent = `${recipe.title}: ${
         recipe.extendedIngredients
           ? recipe.extendedIngredients
               .map((ingredient) => ingredient.original)
@@ -257,18 +255,7 @@ async function fetchShoppingList() {
     } catch (error) {
       console.error("Error fetching recipe details:", error);
     }
-
   });
-
-  const shoppingItem = document.createElement("li");
-  shoppingItem.textContent = `${recipe.title}: ${
-    recipe.extendedIngredients
-      ? recipe.extendedIngredients
-          .map((ingredient) => ingredient.original)
-          .join(", ")
-      : "No ingredients available"
-  }`;
-  shoppingList.appendChild(shoppingItem);
 }
 
 // Update the shopping list when a recipe is added
