@@ -12,8 +12,10 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 120vh;
+    min-height: 100vh;  /* Ensure the body takes at least the full height of the viewport */
+    overflow-y: auto;   /* Enable vertical scrolling if content exceeds the viewport */
 }
+
 
 
 
@@ -117,11 +119,23 @@ button {
     color: white;
     padding: 8px 15px;
     border: none;
-    border-radius: 5px;
+  
     cursor: pointer;
     font-size: 0.9rem;
     transition: background-color 0.3s;
 }
+
+button.view-recipe{
+    background-color: #007BFF;
+    display: block;
+    margin-right: auto;
+}
+
+.button-container {
+    display: flex;
+    justify-content: flex-start;
+}
+
 
 button:hover {
     background-color: #218838;

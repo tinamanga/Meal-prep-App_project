@@ -70,9 +70,11 @@ function displayRecipes(recipes) {
     const recipeElement = document.createElement("div");
     recipeElement.classList.add("recipe-item");
     recipeElement.innerHTML = `
-            <h3>${recipe.title}</h3>
+            <h3>${recipe.title} </h3>
+            <div class="button-container">
             <button class="view-recipe" data-id="${recipe.id}">View Details</button>
             <button class="add-to-plan" data-id="${recipe.id}">Add to Meal Plan</button>
+            </div>
         `;
     recipesList.appendChild(recipeElement);
 
@@ -434,14 +436,14 @@ document.getElementById("toggle-plan").addEventListener("click", () => {
   document.getElementById("meal-plan-section").classList.add("active");
 });
 
-document
-  .getElementById("toggle-shopping-list")
-  .addEventListener("click", () => {
-    document
-      .querySelectorAll("section")
-      .forEach((section) => section.classList.remove("active"));
-    document.getElementById("shopping-list-section").classList.add("active");
-  });
+// document
+//   .getElementById("toggle-shopping-list")
+//   .addEventListener("click", () => {
+//     document
+//       .querySelectorAll("section")
+//       .forEach((section) => section.classList.remove("active"));
+//     document.getElementById("shopping-list-section").classList.add("active");
+//   });
 
 // Export the meal plan and shopping list as JSON
 function exportMealPlan() {
