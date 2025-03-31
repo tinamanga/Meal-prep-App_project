@@ -251,11 +251,29 @@ async function fetchShoppingList() {
       const removeButton = document.createElement("button");
       removeButton.textContent = "Remove";
 
+      removeButton.addEventListener("click", (e) => {
+        deleteShoppingList(shoppingListId);
+      });
+      shoppingItem.append(removeButton);
+
       shoppingList.appendChild(shoppingItem);
     } catch (error) {
       console.error("Error fetching recipe details:", error);
     }
   });
+}
+
+//delete shopping list
+async function deleteShoppingList(shoppingListId) {
+  try {
+    await fetch(`${API_URL}shopping-list/${shoppingListId}`, {
+      method: "DELETE",
+    });
+
+    alert("Item deleted Successfully");
+  } catch (error) {
+    alert("error deleting shopping list :" + error);
+  }
 }
 
 // Update the shopping list when a recipe is added
