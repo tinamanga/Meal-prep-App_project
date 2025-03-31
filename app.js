@@ -23,7 +23,6 @@ function generateRandomString() {
   return randomString;
 }
 
-
 // fetch shoppinglist eventlistener
 shoppingListBtn.addEventListener("click", (e) => {
   fetchShoppingList();
@@ -142,12 +141,11 @@ async function addRecipeToPlan(recipe) {
   const mealItem = { recipe, day: mealDay, time: mealTime };
 
   mealPlan.push(mealItem);
-  //console.log(mealPlan);
+
   // Update the meal plan UI
-  //updateMealPlanUI();
   createShoppingList(recipe);
 
-  // POST new meal plan item to a backend (you could set up an API endpoint for this)
+  // POST new meal plan item to backend
   try {
     await fetch(`${API_URL}meal-plan`, {
       method: "POST",
@@ -164,6 +162,7 @@ async function addRecipeToPlan(recipe) {
 downloadShoppingList.addEventListener("click", (e) => {
   generateShoppingList();
 });
+
 // Generate shopping list
 async function generateShoppingList() {
   const response = await fetch(`${API_URL}shopping-list`);
@@ -229,7 +228,7 @@ function downloadPDF(data, filename) {
   });
 
   // Trigger the PDF download
-  doc.save(filename); // Save the file as the provided filename
+  doc.save(filename); 
 }
 
 // Create a shopping list
@@ -237,8 +236,6 @@ function createShoppingList(recipe) {
   var listBody = new Object();
   listBody.id = generateRandomString();
   listBody.recipe = recipe;
-
-  //return  alert(JSON.stringify(listBody))
 
   try {
     fetch(`${API_URL}shopping-list`, {
@@ -250,16 +247,6 @@ function createShoppingList(recipe) {
   } catch (error) {
     console.error("Error adding to shopping list:", error);
   }
-
-  //   const shoppingItem = document.createElement("li");
-  //   shoppingItem.textContent = `${recipe.title}: ${
-  //     recipe.extendedIngredients
-  //       ? recipe.extendedIngredients
-  //           .map((ingredient) => ingredient.original)
-  //           .join(", ")
-  //       : "No ingredients available"
-  //   }`;
-  //   shoppingList.appendChild(shoppingItem);
 }
 
 // Fetch shopping list
@@ -339,22 +326,6 @@ async function removeFromMealPlan(recipeId) {
     console.error("Error deleting item:", error);
   }
 }
-
-// Update the meal plan UI
-// function updateMealPlanUI() {
-//     //mealPlanList.innerHTML = ''; // Clear existing list
-//     mealPlan.forEach(item => {
-//         const mealItem = document.createElement('li');
-//         mealItem.textContent = `${item.recipe.title} (${item.day} - ${item.time})`;
-//         const removeButton = document.createElement('button');
-//         removeButton.textContent = 'Remove';
-//         removeButton.addEventListener('click', () => {
-//             removeFromMealPlan(item.recipe.id);
-//         });
-//         mealItem.appendChild(removeButton);
-//         mealPlanList.appendChild(mealItem);
-//     });
-// }
 
 async function fechAndDisplayMealPlan() {
   mealPlanList.innerHTML = ""; // Clear existing list
