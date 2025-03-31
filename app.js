@@ -1,191 +1,251 @@
+const API_KEY = "5f8c564bd76247ccb658e942b18f527e"; // Actual API key
+const API_URL = "http://localhost:3000/";
 
-const API_KEY = '5f8c564bd76247ccb658e942b18f527e'  // Actual API key
-const API_URL = "http://localhost:3000/";  
+const recipesList = document.getElementById("recipes-list");
+const mealPlanList = document.getElementById("meal-plan");
+const shoppingList = document.getElementById("shopping-list");
+const searchInput = document.getElementById("search-input"); // Search input field
+const loadingIndicator = document.getElementById("loading"); // Loading indicator
+const containerClass = document.getElementById("main-container");
+const showMealPlanBtn = document.getElementById("toggle-plan");
 
-const recipesList = document.getElementById('recipes-list');
-const mealPlanList = document.getElementById('meal-plan');
-const shoppingList = document.getElementById('shopping-list');
-const searchInput = document.getElementById('search-input'); // Search input field
-const loadingIndicator = document.getElementById('loading'); // Loading indicator
-const containerClass= document.getElementById("main-container");
+// generateRandomId
+function generateRandomString() {
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let randomString = "";
+  for (let i = 0; i < 6; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    randomString += characters[randomIndex];
+  }
+  return randomString;
+}
+
+//console.log(generateRandomString());
+
+showMealPlanBtn.addEventListener("click", (e) => {
+  fechAndDisplayMealPlan();
+});
 
 let mealPlan = []; // Stores the meal plan data
 
 // Function to display the loading state
 function showLoading() {
-    loadingIndicator.style.display = 'block';
+  loadingIndicator.style.display = "block";
 }
 
 // Function to hide the loading state
 function hideLoading() {
-    loadingIndicator.style.display = 'none';
+  loadingIndicator.style.display = "none";
 }
 
 // Fetch recipes from Spoonacular API (GET)
-async function fetchRecipes(query = '') {
-    showLoading();
-    const url = query ? `${API_URL}recipes?query=${query}` : `${API_URL}recipes`;
-    console.log(url);
+async function fetchRecipes(query = "") {
+  showLoading();
+  const url = query ? `${API_URL}recipes?query=${query}` : `${API_URL}recipes`;
+  console.log(url);
 
-    
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
-        displayRecipes(data);
-    } catch (error) {
-        console.error('Error fetching recipes:', error);
-        alert('Failed to load recipes. Please try again later.');
-    } finally {
-        hideLoading();
-    }
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    displayRecipes(data);
+  } catch (error) {
+    console.error("Error fetching recipes:", error);
+    alert("Failed to load recipes. Please try again later.");
+  } finally {
+    hideLoading();
+  }
 }
 
 // Display recipes in the DOM
 function displayRecipes(recipes) {
-    recipesList.innerHTML = '';
-    recipes.forEach(recipe => {
-        const recipeElement = document.createElement('div');
-        recipeElement.classList.add('recipe-item');
-        recipeElement.innerHTML = `
+  recipesList.innerHTML = "";
+  recipes.forEach((recipe) => {
+    const recipeElement = document.createElement("div");
+    recipeElement.classList.add("recipe-item");
+    recipeElement.innerHTML = `
             <h3>${recipe.title}</h3>
             <button class="view-recipe" data-id="${recipe.id}">View Details</button>
             <button class="add-to-plan" data-id="${recipe.id}">Add to Meal Plan</button>
         `;
-        recipesList.appendChild(recipeElement);
+    recipesList.appendChild(recipeElement);
 
-        // Add event listener to view details
-        recipeElement.querySelector('.view-recipe').addEventListener('click', () => viewRecipeDetails(recipe.id));
-        
-        // Add event listener to add to meal plan
-        recipeElement.querySelector('.add-to-plan').addEventListener('click', () => addRecipeToPlan(recipe));
+    // Add event listener to view details
+    recipeElement
+      .querySelector(".view-recipe")
+      .addEventListener("click", () => viewRecipeDetails(recipe.id));
 
-        // Show existing meal plan
+    // Add event listener to add to meal plan
+    recipeElement
+      .querySelector(".add-to-plan")
+      .addEventListener("click", () => addRecipeToPlan(recipe));
 
+    // Show existing meal plan
 
-        // Show existing shopping list
-
-    });
+    // Show existing shopping list
+  });
 }
 
 // View detailed recipe (ingredients and instructions)
 async function viewRecipeDetails(recipeId) {
-    const url = `${API_URL}recipeData/${recipeId}`;
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
-        displayRecipeModal(data);
-    } catch (error) {
-        console.error('Error fetching recipe details:', error);
-    }
+  const url = `${API_URL}recipeData/${recipeId}`;
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    displayRecipeModal(data);
+  } catch (error) {
+    console.error("Error fetching recipe details:", error);
+  }
 }
 
 // Display the modal with recipe details
 function displayRecipeModal(recipe) {
-    const modal = document.createElement('div');
-    modal.classList.add('modal');
-    modal.innerHTML = `
+  const modal = document.createElement("div");
+  modal.classList.add("modal");
+  modal.innerHTML = `
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2>${recipe.title}</h2>
             <h3>Ingredients:</h3>
             <ul>
-                ${recipe.extendedIngredients.map(ingredient => `<li>${ingredient.original}</li>`).join('')}
+                ${recipe.extendedIngredients
+                  .map((ingredient) => `<li>${ingredient.original}</li>`)
+                  .join("")}
             </ul>
             <h3>Instructions:</h3>
             <p>${recipe.instructions}</p>
         </div>
     `;
-    containerClass.appendChild(modal);
-    
-    // Close modal functionality
-    modal.querySelector('.close').addEventListener('click', () => modal.remove());
+  containerClass.appendChild(modal);
 
-    // Close modal if clicking outside the content
-    window.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            modal.remove();
-        }
-    });
+  // Close modal functionality
+  modal.querySelector(".close").addEventListener("click", () => modal.remove());
+
+  // Close modal if clicking outside the content
+  window.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      modal.remove();
+    }
+  });
 }
 
 // Add recipe to weekly meal plan (POST)
 async function addRecipeToPlan(recipe) {
-    const mealDay = prompt("Which day would you like to add this to (e.g., Monday)?");
-    const mealTime = prompt("Which meal time? (e.g., dinner)");
+  const mealDay = prompt(
+    "Which day would you like to add this to (e.g., Monday)?"
+  );
+  const mealTime = prompt("Which meal time? (e.g., dinner)");
 
-    const mealItem = { recipe, day: mealDay, time: mealTime };
+  const mealItem = { recipe, day: mealDay, time: mealTime };
 
-    
-    mealPlan.push(mealItem);
-    //console.log(mealPlan);
-    // Update the meal plan UI
-    //updateMealPlanUI();
-    updateShoppingList(recipe);
+  mealPlan.push(mealItem);
+  //console.log(mealPlan);
+  // Update the meal plan UI
+  //updateMealPlanUI();
+  createShoppingList(recipe);
 
-    // POST new meal plan item to a backend (you could set up an API endpoint for this)
-    try {
-        await fetch(`${API_URL}meal-plan`, {
-            method: 'POST',
-            mode: 'no-cors',  // This disables the CORS check
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(mealItem)
-        });
-    } catch (error) {
-        console.error('Error adding to meal plan:', error);
-    }
+  // POST new meal plan item to a backend (you could set up an API endpoint for this)
+  try {
+    await fetch(`${API_URL}meal-plan`, {
+      method: "POST",
+      mode: "no-cors", // This disables the CORS check
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(mealItem),
+    });
+  } catch (error) {
+    console.error("Error adding to meal plan:", error);
+  }
 }
 
 // Generate shopping list
 function generateShoppingList() {
-    const shoppingList = [];
-    mealPlan.forEach(item => {
-        item.recipe.extendedIngredients.forEach(ingredient => {
-            if (!shoppingList.includes(ingredient.original)) {
-                shoppingList.push(ingredient.original);
-            }
-        });
+  const shoppingList = [];
+  mealPlan.forEach((item) => {
+    item.recipe.extendedIngredients.forEach((ingredient) => {
+      if (!shoppingList.includes(ingredient.original)) {
+        shoppingList.push(ingredient.original);
+      }
     });
+  });
 
-    // Display shopping list
-    const shoppingListContainer = document.getElementById('shopping-list');
-    shoppingListContainer.innerHTML = shoppingList.join('<br/>');
+  // Display shopping list
+  const shoppingListContainer = document.getElementById("shopping-list");
+  shoppingListContainer.innerHTML = shoppingList.join("<br/>");
 
-    // Option to download shopping list as JSON
-    const downloadButton = document.getElementById('download-shopping-list');
-    downloadButton.addEventListener('click', () => {
-        const data = { shoppingList };
-        downloadJSON(data, 'shopping_list.json');
-    });
+  // Option to download shopping list as JSON
+  const downloadButton = document.getElementById("download-shopping-list");
+  downloadButton.addEventListener("click", () => {
+    const data = { shoppingList };
+    downloadJSON(data, "shopping_list.json");
+  });
 }
 
 // Helper function to download JSON
 function downloadJSON(data, filename) {
-    const file = new Blob([JSON.stringify(data)], { type: 'application/json' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(file);
-    a.download = filename;
-    a.click();
+  const file = new Blob([JSON.stringify(data)], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(file);
+  a.download = filename;
+  a.click();
 }
+
+// Create a shopping list
+function createShoppingList(recipe) {
+  var listBody = new Object();
+  listBody.id = generateRandomString();
+  listBody.recipe = recipe;
+
+  //return  alert(JSON.stringify(listBody))
+
+  try {
+    fetch(`${API_URL}shopping-list`, {
+      method: "POST",
+      mode: "no-cors", // This disables the CORS check
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(listBody),
+    });
+  } catch (error) {
+    console.error("Error adding to shopping list:", error);
+  }
+
+  //   const shoppingItem = document.createElement("li");
+  //   shoppingItem.textContent = `${recipe.title}: ${
+  //     recipe.extendedIngredients
+  //       ? recipe.extendedIngredients
+  //           .map((ingredient) => ingredient.original)
+  //           .join(", ")
+  //       : "No ingredients available"
+  //   }`;
+  //   shoppingList.appendChild(shoppingItem);
+}
+
+// Fetch shopping list
 
 // Update the shopping list when a recipe is added
 function updateShoppingList(recipe) {
-    const shoppingItem = document.createElement('li');
-    shoppingItem.textContent = `${recipe.title}: ${recipe.extendedIngredients ? recipe.extendedIngredients.map(ingredient => ingredient.original).join(', ') : 'No ingredients available'}`;
-    shoppingList.appendChild(shoppingItem);
+  const shoppingItem = document.createElement("li");
+  shoppingItem.textContent = `${recipe.title}: ${
+    recipe.extendedIngredients
+      ? recipe.extendedIngredients
+          .map((ingredient) => ingredient.original)
+          .join(", ")
+      : "No ingredients available"
+  }`;
+  shoppingList.appendChild(shoppingItem);
 }
 
 // Remove recipe from the meal plan
 async function removeFromMealPlan(recipeId) {
-    mealPlan = mealPlan.filter(item => item.recipe.id !== recipeId);
-   // updateMealPlanUI();
-    try {
-        await fetch(`${API_URL}meal-plan/${recipeId}`, {
-            method: 'DELETE',
-        });
-        console.log('Item deleted successfully');
-    } catch (error) {
-        console.error('Error deleting item:', error);
-    }
+  mealPlan = mealPlan.filter((item) => item.recipe.id !== recipeId);
+  // updateMealPlanUI();
+  try {
+    await fetch(`${API_URL}meal-plan/${recipeId}`, {
+      method: "DELETE",
+    });
+    console.log("Item deleted successfully");
+  } catch (error) {
+    console.error("Error deleting item:", error);
+  }
 }
 
 // Update the meal plan UI
@@ -204,48 +264,44 @@ async function removeFromMealPlan(recipeId) {
 //     });
 // }
 
-
 async function fechAndDisplayMealPlan() {
-    mealPlanList.innerHTML = ''; // Clear existing list
-    try {
-        const response = await fetch(`${API_URL}meal-plan`);
-        const data = await response.json();
-        data.forEach(item => {
-            const mealItem = document.createElement('li');
-            mealItem.textContent = `${item.recipe.title} (${item.day} - ${item.time})`;
-            const removeButton = document.createElement('button');
-            removeButton.textContent = 'Remove';
+  mealPlanList.innerHTML = ""; // Clear existing list
+  try {
+    const response = await fetch(`${API_URL}meal-plan`);
+    const data = await response.json();
+    data.forEach((item) => {
+      const mealItem = document.createElement("li");
+      mealItem.textContent = `${item.recipe.title} (${item.day} - ${item.time})`;
+      const removeButton = document.createElement("button");
+      removeButton.textContent = "Remove";
 
-            const updateButton=document.createElement('button');
-            updateButton.textContent='Update';
+      const updateButton = document.createElement("button");
+      updateButton.textContent = "Update";
 
-            removeButton.addEventListener('click', () => {
-                //alert(item.recipe.id);
-                removeFromMealPlan(item.id);
-            });
-            updateButton.addEventListener('click', () => {
-                //alert(item.recipe.id);
-                displayMealUpdateModal(item);
-            });
-            mealItem.appendChild(updateButton);
-            mealItem.appendChild(removeButton);
-            
-            mealPlanList.appendChild(mealItem);
-        });
-    } catch (error) {
-        console.error('Error fetching meal plans:', error);
-        alert('Failed to load meal plans. Please try again later.');
-    } 
+      removeButton.addEventListener("click", () => {
+        //alert(item.recipe.id);
+        removeFromMealPlan(item.id);
+      });
+      updateButton.addEventListener("click", () => {
+        //alert(item.recipe.id);
+        displayMealUpdateModal(item);
+      });
+      mealItem.appendChild(updateButton);
+      mealItem.appendChild(removeButton);
 
-    
+      mealPlanList.appendChild(mealItem);
+    });
+  } catch (error) {
+    console.error("Error fetching meal plans:", error);
+    alert("Failed to load meal plans. Please try again later.");
+  }
 }
 
-
 // Display Meal update modal
- function displayMealUpdateModal(mealPlan) {
-    const modal = document.createElement('div');
-    modal.classList.add('modal');
-    modal.innerHTML = `
+function displayMealUpdateModal(mealPlan) {
+  const modal = document.createElement("div");
+  modal.classList.add("modal");
+  modal.innerHTML = `
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2>${mealPlan.recipe.title}</h2>
@@ -258,90 +314,87 @@ async function fechAndDisplayMealPlan() {
             </form>
         </div>
     `;
-    containerClass.appendChild(modal);
-    
-    // Close modal functionality
-    modal.querySelector('.close').addEventListener('click', () => modal.remove());
+  containerClass.appendChild(modal);
 
-    const form = document.getElementById('update-form');
-    form.addEventListener('submit', function(event) {
-      event.preventDefault(); // Prevent the form from submitting
-  
-      const mealDay = document.getElementById('meal-day').value;
-      const mealTime = document.getElementById('meal-time').value;
-      const mealPlanId = mealPlan.id;
-      var updateBody= new Object();
-      
-      updateBody.day=mealDay;
-      updateBody.time= mealTime;
-      var jsonBody=JSON.stringify(updateBody);
-      alert(jsonBody);
+  // Close modal functionality
+  modal.querySelector(".close").addEventListener("click", () => modal.remove());
 
-      try {
-         fetch(`${API_URL}meal-plan/${mealPlanId}`, {
-            method: 'PATCH',
-            //mode: 'no-cors',  // This disables the CORS check
-            headers: { 'Content-Type': 'application/json' },
-            body: jsonBody
-        });
+  const form = document.getElementById("update-form");
+  form.addEventListener("submit", function (event) {
+    event.preventDefault(); // Prevent the form from submitting
+
+    const mealDay = document.getElementById("meal-day").value;
+    const mealTime = document.getElementById("meal-time").value;
+    const mealPlanId = mealPlan.id;
+    var updateBody = new Object();
+
+    updateBody.day = mealDay;
+    updateBody.time = mealTime;
+    var jsonBody = JSON.stringify(updateBody);
+    alert(jsonBody);
+
+    try {
+      fetch(`${API_URL}meal-plan/${mealPlanId}`, {
+        method: "PATCH",
+        //mode: 'no-cors',  // This disables the CORS check
+        headers: { "Content-Type": "application/json" },
+        body: jsonBody,
+      });
     } catch (error) {
-        console.error('Error adding to meal plan:', error);
+      console.error("Error adding to meal plan:", error);
     }
+  });
 
-     
-    });
-
-    // Close modal if clicking outside the content
-    window.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            modal.remove();
-        }
-    });
+  // Close modal if clicking outside the content
+  window.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      modal.remove();
+    }
+  });
 }
 
-
-
-
-
-
-
-
-
 // Toggle sections (view recipes, meal plan, shopping list)
-document.getElementById('toggle-recipes').addEventListener('click', () => {
-    document.querySelectorAll('section').forEach(section => section.classList.remove('active'));
-    document.getElementById('recipes-section').classList.add('active');
-    fetchRecipes(); // Fetch recipes on view
+document.getElementById("toggle-recipes").addEventListener("click", () => {
+  document
+    .querySelectorAll("section")
+    .forEach((section) => section.classList.remove("active"));
+  document.getElementById("recipes-section").classList.add("active");
+  fetchRecipes(); // Fetch recipes on view
 });
 
-document.getElementById('toggle-plan').addEventListener('click', () => {
-    document.querySelectorAll('section').forEach(section => section.classList.remove('active'));
-    document.getElementById('meal-plan-section').classList.add('active');
+document.getElementById("toggle-plan").addEventListener("click", () => {
+  document
+    .querySelectorAll("section")
+    .forEach((section) => section.classList.remove("active"));
+  document.getElementById("meal-plan-section").classList.add("active");
 });
 
-document.getElementById('toggle-shopping-list').addEventListener('click', () => {
-    document.querySelectorAll('section').forEach(section => section.classList.remove('active'));
-    document.getElementById('shopping-list-section').classList.add('active');
-});
+document
+  .getElementById("toggle-shopping-list")
+  .addEventListener("click", () => {
+    document
+      .querySelectorAll("section")
+      .forEach((section) => section.classList.remove("active"));
+    document.getElementById("shopping-list-section").classList.add("active");
+  });
 
 // Export the meal plan and shopping list as JSON
 function exportMealPlan() {
-    const data = {
-        recipes: mealPlan.map(item => item.recipe),
-        shoppingList: generateShoppingList(),
-        mealPlan: mealPlan
-    };
-    downloadJSON(data, 'meal_plan.json');
+  const data = {
+    recipes: mealPlan.map((item) => item.recipe),
+    shoppingList: generateShoppingList(),
+    mealPlan: mealPlan,
+  };
+  downloadJSON(data, "meal_plan.json");
 }
 
 // Search functionality
-searchInput.addEventListener('input', (e) => {
-    fetchRecipes(e.target.value); // Fetch recipes based on search input
+searchInput.addEventListener("input", (e) => {
+  fetchRecipes(e.target.value); // Fetch recipes based on search input
 });
 
 // Show recipes section by default on page load
 window.onload = () => {
-    document.getElementById('toggle-recipes').click();
-    fetchRecipes(); // Fetch initial recipes
-    fechAndDisplayMealPlan();
+  document.getElementById("toggle-recipes").click();
+  fetchRecipes(); // Fetch initial recipes
 };

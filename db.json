@@ -5012,26 +5012,132 @@
   ],
   "meal-plan": [
     {
-      "id": "dff8",
+      "id": "fa93",
       "recipe": {
-        "id": "640941",
-        "title": "Crunchy Brussels Sprouts Side Dish",
-        "image": "https://img.spoonacular.com/recipes/640941-312x231.jpg",
+        "id": "716406",
+        "title": "Asparagus and Pea Soup: Real Convenience Food",
+        "image": "https://img.spoonacular.com/recipes/716406-312x231.jpg",
         "imageType": "jpg"
       },
-      "day": "Friday",
-      "time": "Lunch"
+      "day": "ertyu",
+      "time": "nullrtyuytr"
     },
     {
-      "id": "37f2",
+      "id": "6135",
+      "recipe": {
+        "id": "715415",
+        "title": "Red Lentil Soup with Chicken and Turnips",
+        "image": "https://img.spoonacular.com/recipes/715415-312x231.jpg",
+        "imageType": "jpg"
+      },
+      "day": "ertyu",
+      "time": "rtyu"
+    },
+    {
+      "id": "6d5b",
+      "recipe": {
+        "id": "715415",
+        "title": "Red Lentil Soup with Chicken and Turnips",
+        "image": "https://img.spoonacular.com/recipes/715415-312x231.jpg",
+        "imageType": "jpg"
+      },
+      "day": null,
+      "time": null
+    },
+    {
+      "id": "d2c9",
       "recipe": {
         "id": "640941",
         "title": "Crunchy Brussels Sprouts Side Dish",
         "image": "https://img.spoonacular.com/recipes/640941-312x231.jpg",
         "imageType": "jpg"
       },
-      "day": "rtyu",
-      "time": "ert"
+      "day": "rtwewdf",
+      "time": "sedfddfd"
+    },
+    {
+      "id": "af81",
+      "recipe": {
+        "id": "715415",
+        "title": "Red Lentil Soup with Chicken and Turnips",
+        "image": "https://img.spoonacular.com/recipes/715415-312x231.jpg",
+        "imageType": "jpg"
+      },
+      "day": "errdrer",
+      "time": "ererere"
+    },
+    {
+      "id": "7408",
+      "recipe": {
+        "id": "715415",
+        "title": "Red Lentil Soup with Chicken and Turnips",
+        "image": "https://img.spoonacular.com/recipes/715415-312x231.jpg",
+        "imageType": "jpg"
+      },
+      "day": null,
+      "time": null
+    },
+    {
+      "id": "3150",
+      "recipe": {
+        "id": "715415",
+        "title": "Red Lentil Soup with Chicken and Turnips",
+        "image": "https://img.spoonacular.com/recipes/715415-312x231.jpg",
+        "imageType": "jpg"
+      },
+      "day": "asdfaff",
+      "time": "asddfsf"
+    },
+    {
+      "id": "d334",
+      "recipe": {
+        "id": "715415",
+        "title": "Red Lentil Soup with Chicken and Turnips",
+        "image": "https://img.spoonacular.com/recipes/715415-312x231.jpg",
+        "imageType": "jpg"
+      },
+      "day": null,
+      "time": null
+    },
+    {
+      "id": "f75d",
+      "recipe": {
+        "id": "640941",
+        "title": "Crunchy Brussels Sprouts Side Dish",
+        "image": "https://img.spoonacular.com/recipes/640941-312x231.jpg",
+        "imageType": "jpg"
+      },
+      "day": "qwerty",
+      "time": "erdty"
+    }
+  ],
+  "shopping-list": [
+    {
+      "id": "bCacgW",
+      "recipe": {
+        "id": "715415",
+        "title": "Red Lentil Soup with Chicken and Turnips",
+        "image": "https://img.spoonacular.com/recipes/715415-312x231.jpg",
+        "imageType": "jpg"
+      }
+    },
+    {
+      "id": "ECuBRk",
+      "recipe": {
+        "id": "715415",
+        "title": "Red Lentil Soup with Chicken and Turnips",
+        "image": "https://img.spoonacular.com/recipes/715415-312x231.jpg",
+        "imageType": "jpg"
+      }
+    },
+    {
+      "id": "mjhJBx",
+      "recipe": {
+        "id": "640941",
+        "title": "Crunchy Brussels Sprouts Side Dish",
+        "image": "https://img.spoonacular.com/recipes/640941-312x231.jpg",
+        "imageType": "jpg"
+      }
     }
   ]
 }
