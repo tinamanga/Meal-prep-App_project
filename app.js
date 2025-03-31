@@ -9,6 +9,10 @@ const loadingIndicator = document.getElementById("loading"); // Loading indicato
 const containerClass = document.getElementById("main-container");
 const showMealPlanBtn = document.getElementById("toggle-plan");
 const shoppingListBtn = document.getElementById("toggle-shopping-list");
+const downloadShoppingList = document.getElementById("download-shopping-list");
+
+
+
 
 // generateRandomId
 function generateRandomString() {
@@ -163,27 +167,36 @@ async function addRecipeToPlan(recipe) {
   }
 }
 
+// Trigger shopping list download process
+downloadShoppingList.addEventListener("click", (e) => {
+  generateShoppingList();
+});
 // Generate shopping list
-function generateShoppingList() {
-  const shoppingList = [];
-  mealPlan.forEach((item) => {
-    item.recipe.extendedIngredients.forEach((ingredient) => {
-      if (!shoppingList.includes(ingredient.original)) {
-        shoppingList.push(ingredient.original);
-      }
-    });
-  });
+async function generateShoppingList() {
+  const response = await fetch(`${API_URL}shopping-list`);
+  const data = await response.json();
 
-  // Display shopping list
-  const shoppingListContainer = document.getElementById("shopping-list");
-  shoppingListContainer.innerHTML = shoppingList.join("<br/>");
+  var shoppingList = [];
 
-  // Option to download shopping list as JSON
-  const downloadButton = document.getElementById("download-shopping-list");
-  downloadButton.addEventListener("click", () => {
-    const data = { shoppingList };
-    downloadJSON(data, "shopping_list.json");
-  });
+  for (const listItem of data) {
+    try {
+      const response = await fetch(
+        `${API_URL}recipeData/${listItem.recipe.id}`
+      );
+      const recipe = await response.json();
+
+      recipe.extendedIngredients.forEach((ingredient) => {
+        if (!shoppingList.includes(ingredient.original)) {
+          shoppingList.push("Recipe Title: "+recipe.title,ingredient.original);
+        }
+      });
+    } catch (error) {
+      console.log("Error occurred when dowloading shopping list: " + error);
+    }
+  }
+
+  const data2 = { shoppingList };
+  downloadPDF(data2, "shopping_list.pdf");
 }
 
 // Helper function to download JSON
@@ -194,6 +207,36 @@ function downloadJSON(data, filename) {
   a.download = filename;
   a.click();
 }
+
+function downloadPDF(data, filename) {
+    // Import jsPDF if using it via npm (if using CDN, it's available globally)
+    const { jsPDF } = window.jspdf;
+  
+    // Create a new PDF document
+    const doc = new jsPDF();
+  
+    // Add title to PDF
+    doc.text("Shopping List", 20, 10);  // Title at coordinates (20, 10)
+  
+    // Add each item in the shopping list to the PDF
+    let yPosition = 20;  // Start the list from below the title
+    const lineHeight = 10; // Vertical space between lines
+    const maxHeight = 290;
+    data.shoppingList.forEach((item, index) => {
+        
+        // If the current yPosition exceeds the max height, add a new page
+    if (yPosition + lineHeight > maxHeight) {
+        doc.addPage();  // Add a new page
+        yPosition = 20;  // Reset the vertical position on the new page
+      }
+      doc.text(`${index + 1}. ${item}`, 20, yPosition);
+      yPosition += lineHeight;  // Increase the vertical position for the next item
+    });
+  
+    // Trigger the PDF download
+    doc.save(filename);  // Save the file as the provided filename
+  }
+  
 
 // Create a shopping list
 function createShoppingList(recipe) {
