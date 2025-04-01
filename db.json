@@ -5021,11 +5021,31 @@
       },
       "day": "ttr",
       "time": "ttt"
+    },
+    {
+      "id": "7234",
+      "recipe": {
+        "id": "715415",
+        "title": "Red Lentil Soup with Chicken and Turnips",
+        "image": "https://img.spoonacular.com/recipes/715415-312x231.jpg",
+        "imageType": "jpg"
+      },
+      "day": "tyuji",
+      "time": "fghj"
     }
   ],
   "shopping-list": [
     {
       "id": "C7GULz",
+      "recipe": {
+        "id": "715415",
+        "title": "Red Lentil Soup with Chicken and Turnips",
+        "image": "https://img.spoonacular.com/recipes/715415-312x231.jpg",
+        "imageType": "jpg"
+      }
+    },
+    {
+      "id": "iPvtja",
       "recipe": {
         "id": "715415",
         "title": "Red Lentil Soup with Chicken and Turnips",

@@ -338,12 +338,17 @@ async function fechAndDisplayMealPlan() {
     data.forEach((item) => {
       const mealItem = document.createElement("li");
       mealItem.textContent = `${item.recipe.title} (${item.day} - ${item.time})`;
+      const btnContainer = document.createElement("div")
+      btnContainer.classList.add('button-container')
       const removeButton = document.createElement("button");
       removeButton.textContent = "Remove";
       removeButton.classList.add('remove');
 
       const updateButton = document.createElement("button");
       updateButton.textContent = "Update";
+      updateButton.classList.add("update-meal")
+      
+
 
       removeButton.addEventListener("click", () => {
         //alert(item.recipe.id);
@@ -353,8 +358,9 @@ async function fechAndDisplayMealPlan() {
         //alert(item.recipe.id);
         displayMealUpdateModal(item);
       });
-      mealItem.appendChild(updateButton);
-      mealItem.appendChild(removeButton);
+      btnContainer.append(updateButton)
+      btnContainer.appendChild(removeButton);
+      mealItem.appendChild(btnContainer);
 
       mealPlanList.appendChild(mealItem);
     });
@@ -436,24 +442,14 @@ document.getElementById("toggle-plan").addEventListener("click", () => {
   document.getElementById("meal-plan-section").classList.add("active");
 });
 
-// document
-//   .getElementById("toggle-shopping-list")
-//   .addEventListener("click", () => {
-//     document
-//       .querySelectorAll("section")
-//       .forEach((section) => section.classList.remove("active"));
-//     document.getElementById("shopping-list-section").classList.add("active");
-//   });
-
-// Export the meal plan and shopping list as JSON
-function exportMealPlan() {
-  const data = {
-    recipes: mealPlan.map((item) => item.recipe),
-    shoppingList: generateShoppingList(),
-    mealPlan: mealPlan,
-  };
-  downloadJSON(data, "meal_plan.json");
-}
+document
+  .getElementById("toggle-shopping-list")
+  .addEventListener("click", () => {
+    document
+      .querySelectorAll("section")
+      .forEach((section) => section.classList.remove("active"));
+    document.getElementById("shopping-list-section").classList.add("active");
+  });
 
 // Search functionality
 searchInput.addEventListener("input", (e) => {
@@ -464,4 +460,5 @@ searchInput.addEventListener("input", (e) => {
 window.onload = () => {
   document.getElementById("toggle-recipes").click();
   fetchRecipes(); // Fetch initial recipes
+  //fetchShoppingList();
 };

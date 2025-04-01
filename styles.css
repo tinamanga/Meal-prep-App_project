@@ -119,15 +119,14 @@ button {
     color: white;
     padding: 8px 15px;
     border: none;
-  
     cursor: pointer;
     font-size: 0.9rem;
     transition: background-color 0.3s;
 }
 
-button.view-recipe{
+button.view-recipe, .update-meal{
     background-color: #007BFF;
-    display: block;
+    display: flex;
     margin-right: auto;
 }
 
@@ -240,10 +239,7 @@ button.remove:hover {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .app-container {
-        width: 100%;
-        padding: 10px;
-     }
+    
     .app-container {
         width: 100%;
         background-color: #ffffff;
@@ -273,9 +269,5 @@ button.remove:hover {
     .recipe-item button {
         width: 100%;
         margin-top: 10px;
-    }
-
-    #download-shopping-list {
-        width: 100%;
     }
 }
