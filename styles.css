@@ -271,3 +271,9 @@ button.remove:hover {
         margin-top: 10px;
     }
 }
+
+footer {
+    text-align: center; /* Center-aligns the text inside the footer */
+    padding: 20px; /* Adds some padding for better spacing */
+}
+
