@@ -155,3 +155,8 @@ To run the **Meal-Prep-APP** locally, follow the steps below:
 - If you have any questions or feedback, feel free to contact me:
 
 - Email: [christinamanga98@gmail.com]
+
+
+
+## N/B
+- The API is currently using json server as an API simulation because Spoonacular API is limited to 150 API call counts per day which limit the development process hence the need to store the data fetched in a json file to facilitate my development process. I will be glad to guide if in need of any clarification or assistance to implement such an application.
