@@ -265,7 +265,7 @@ async function fetchShoppingList() {
       const response = await fetch(`${API_URL}recipeData/${recipeId}`);
       const recipe = await response.json();
 
-      //   Create and display then shopping list
+      //   Create and display the shopping list
       const shoppingItem = document.createElement("li");
       shoppingItem.textContent = `${recipe.title}: ${
         recipe.extendedIngredients

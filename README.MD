@@ -6,16 +6,26 @@ The **Meal-Prep-APP** is a modern web-based application that helps users plan th
 With its intuitive interface, the app is perfect for anyone looking to simplify their meal prep and grocery shopping process.
 
 ## Key Features
-- **Recipe Search**: Users can search for recipes by ingredient or recipe name.
 - **Recipe Details**: View detailed information about each recipe, including ingredients and cooking instructions.
 - **Add Recipes to Meal Plan**: Easily add recipes to specific days in your weekly meal plan.
 - **Shopping List Generation**: Automatically generate a shopping list based on the selected recipes.
-- **Meal Plan Export**: Download your meal plan and shopping list as a JSON file.
+- **Meal Plan Export**: Download your meal plan and shopping list as a PDF file.
 - **Responsive Design**: The app is fully responsive, ensuring a smooth experience on both mobile and desktop devices.
 - **Customizable Meal Swaps**: Swap meals between days to suit your schedule.
 
 ## Screenshots
-*(Example image placeholder, replace with your own app screenshot)*
+
+### Recipes
+*![Recipes Screenshot](assets/images/recipeList.png)*
+
+### Meal Plans
+*![Meal Plans Screenshot](assets/images/mealPlan.png)*
+
+### SHopping Lists 
+*![SHopping Lists Screenshot](assets/images/shoppingList.png)*
+
+### Dounloaded List 
+*![Dounloaded List Screenshot](assets/images/downloadedList.png)*
 
 ## Installation
 To run the **Meal-Prep-APP** locally, follow the steps below:
