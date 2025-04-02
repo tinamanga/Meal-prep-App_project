@@ -5043,6 +5043,17 @@
       },
       "day": "Sunday",
       "time": "Breakfast"
+    },
+    {
+      "id": "7498",
+      "recipe": {
+        "id": "715415",
+        "title": "Red Lentil Soup with Chicken and Turnips",
+        "image": "https://img.spoonacular.com/recipes/715415-312x231.jpg",
+        "imageType": "jpg"
+      },
+      "day": null,
+      "time": null
     }
   ],
   "shopping-list": [
@@ -5079,6 +5090,15 @@
         "id": "644387",
         "title": "Garlicky Kale",
         "image": "https://img.spoonacular.com/recipes/644387-312x231.jpg",
+        "imageType": "jpg"
+      }
+    },
+    {
+      "id": "9PZuBq",
+      "recipe": {
+        "id": "715415",
+        "title": "Red Lentil Soup with Chicken and Turnips",
+        "image": "https://img.spoonacular.com/recipes/715415-312x231.jpg",
         "imageType": "jpg"
       }
     }
