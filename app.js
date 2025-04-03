@@ -1,5 +1,5 @@
 const API_KEY = "5f8c564bd76247ccb658e942b18f527e"; // Actual API key
-const API_URL = "http://localhost:3000/";
+const API_URL = "http://185.241.151.159:3000/";
 
 const recipesList = document.getElementById("recipes-list");
 const mealPlanList = document.getElementById("meal-plan");
