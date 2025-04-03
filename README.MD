@@ -24,7 +24,7 @@ With its intuitive interface, the app is perfect for anyone looking to simplify 
 ### SHopping Lists 
 *![SHopping Lists Screenshot](assets/images/shoppingList.png)*
 
-### Dounloaded List 
+### Douwloaded List 
 *![Dounloaded List Screenshot](assets/images/downloadedList.png)*
 
 ## Installation
@@ -71,27 +71,23 @@ To run the **Meal-Prep-APP** locally, follow the steps below:
 - Replace 'your-api-key-here' with your actual API key.
 
 ### Usage
-1. Search Recipes
-    - Enter an ingredient or recipe name in the search bar to find relevant recipes.
 
-    - The app will display a list of recipes with titles and options to view details or add to the meal plan.
-
-2. Add Recipe to Meal Plan
+1. Add Recipe to Meal Plan
     - Click on the "Add to Meal Plan" button next to any recipe.
 
     - A prompt will appear asking you to select a day of the week and a meal time (e.g., Monday Dinner, Tuesday Lunch).
 
-3. View Weekly Meal Plan
+2. View Weekly Meal Plan
     - Navigate to the Meal Plan section to view all added recipes for the week.
 
     - You can remove any recipe or swap meals between days for flexibility.
 
-4. Generate Shopping List
+3. Generate Shopping List
     - Once meals are added to your plan, the app will automatically generate a shopping list with all the ingredients needed.
 
     - You can download this list in JSON format by clicking the "Download Shopping List" button.
 
-5. Export Meal Plan
+4. Export Meal Plan
     - Export the entire meal plan and shopping list by clicking the "Download Meal Plan" button.
 
 ### Technologies Used
